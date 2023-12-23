@@ -40,7 +40,7 @@ This application is a Rust-based console interface for interacting with OpenAI's
 ## Modules
 
 - **main.rs**: Entry point of the application.
-- **GPT.rs**: Handles the interaction with the OpenAI API, including streaming responses.
+- **gpt.rs**: Handles the interaction with the OpenAI API, including streaming responses.
 - **ui.rs**: Manages the user interface, including input prompts and displaying responses.
 
 ## Contributing
