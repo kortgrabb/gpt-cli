@@ -18,7 +18,7 @@ impl Config {
         } else {
             String::from("gpt-3.5-turbo")
         };
-        
+
         Ok(Config { api_key, engine })
     } 
 }
@@ -51,6 +51,7 @@ fn main() {
                 if input.to_lowercase() == "exit" {
                     break;
                 }
+                
                 // Use the runtime to block on the future
                 match rt.block_on(chatgpt_client.get_response(&input)) {
                     Ok(response) => ui::display_response(&response),
