@@ -1,11 +1,18 @@
 # Rust GPT Console Application
 
-This application is a Rust-based console interface for interacting with OpenAI's GPT. It features real-time streaming of responses, allowing users to see the GPT responses as they are generated.
+This application is a Rust-based console interface for interacting with OpenAI's GPT.
 
 ## Features
 
-- **GPT Integration**: Communicate with OpenAI's GPT model in real-time.
-- **Configurable**: Easy to configure with your OpenAI API key and other settings.
+- **GPT Integration**: Chat with any model you want in just your terminal!
+- **Configurable**: Easily adjust and tune the model using the following configuration values:
+   - `api-key`: The API key needed for authentication and accessing the OpenAI GPT model.
+   - `model`: Specify the GPT model to be used for generating responses.
+   - `max-tokens`: Set the limit for the number of tokens in the generated response.
+   - `temperature`: Influence the randomness of the generated response. Higher values increase randomness, while lower values make the output more deterministic.
+   - `top_p`: Control the diversity of the generated response. Set the cumulative probability threshold for the selection of the next token. Higher values increase diversity, while lower values make the output more deterministic.
+
+Let me know if you need any further assistance!
 
 ## Requirements
 
@@ -56,5 +63,3 @@ Contributions to this project are welcome! Please follow these steps:
 ## License
 
 This project is licensed under [MIT] - see the LICENSE file for details.
-
----
