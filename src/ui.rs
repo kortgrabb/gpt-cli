@@ -13,5 +13,9 @@ pub fn get_user_input() -> Option<String> {
 }
 
 pub fn display_response(response: &str) {
-    println!("\n{} {}", "AI Response:".blue().bold(), response);
+    println!("\n{} {}", "GPT:".bright_blue().bold(), response);
+}
+
+pub fn print_border() {
+    println!("{}", "=".repeat(50).bright_blue().bold());
 }

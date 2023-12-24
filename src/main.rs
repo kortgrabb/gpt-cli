@@ -47,12 +47,14 @@ fn main() {
                 if input.to_lowercase() == "exit" {
                     break;
                 }
-                
-                // Use the runtime to block on the future
-                match t_runtime.block_on(chatgpt_client.get_response(&input)) {
-                    Ok(response) => ui::display_response(&response),
-                    Err(e) => eprintln!("Error: {}", e),
+
+                let response = t_runtime.block_on(chatgpt_client.get_response(&input));
+                match response {
+                    Ok(result) => ui::display_response(&result),
+                    Err(err) => eprintln!("Error: {}", err),
                 }
+
+                ui::print_border();
             }
             None => break,
         }
