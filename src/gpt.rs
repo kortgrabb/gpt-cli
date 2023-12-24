@@ -5,6 +5,10 @@ pub struct GPTClient {
     client: Client,
     engine: String,
     api_key: String,
+    max_tokens: usize,
+    temperature: f32,
+    top_p: f32,
+
     message_history: Vec<Value>,
 }
 
@@ -19,6 +23,9 @@ impl GPTClient {
             })],
 
             engine: config.engine.to_string(),
+            max_tokens: config.max_tokens,
+            temperature: config.temperature,
+            top_p: config.top_p,
         }
     }
 
@@ -33,9 +40,9 @@ impl GPTClient {
         let body = json!({
             "model": self.engine,
             "messages": self.message_history,
-            "max_tokens": 150,
-            "temperature": 0.9,
-            "top_p": 1.0,
+            "max_tokens": self.max_tokens,
+            "temperature": self.temperature,
+            "top_p": self.top_p,
         });
 
         let response = self.client.post("https://api.openai.com/v1/chat/completions")
