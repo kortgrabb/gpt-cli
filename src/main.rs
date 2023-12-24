@@ -1,49 +1,45 @@
+use serde::{Serialize, Deserialize};
+
 mod gpt;
 mod ui;
 
+#[derive(Serialize, Deserialize)]
 struct Config {
     api_key: String,
     engine: String,
 }
 
-impl Config {
-    fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 2 {
-            return Err("not enough arguments");
-        }
-        let api_key = args[1].clone();
-
-        let engine = if args.len() > 2 {
-            args[2].clone()
-        } else {
-            String::from("gpt-3.5-turbo")
+fn read_config() -> Config {
+    // check if the config file exists
+    if !std::path::Path::new("config.json").exists() {
+        // if it doesn't, create it
+        let config = Config {
+            api_key: "".to_string(),
+            engine: "gpt-3.5-turbo".to_string(),
         };
 
-        Ok(Config { api_key, engine })
-    } 
+        let config_json = serde_json::to_string_pretty(&config).unwrap();
+        std::fs::write("config.json", config_json).unwrap();
+    }
+
+    // read the config file
+    let config_json = std::fs::read_to_string("config.json").unwrap();
+    let config: Config = serde_json::from_str(&config_json).unwrap();
+
+    config
 }
 
-fn main() {
-
-    let args: Vec<String> = std::env::args().collect();
-    if args.len() < 2 {
-        eprintln!("Usage: chatgpt <api_key> [engine]");
-        std::process::exit(1);
-    }
+fn main() {    
     
-    let config: Config = Config::new(&args).unwrap_or_else(|err| {
-        eprintln!("Problem parsing arguments: {}", err);
-        std::process::exit(1);
-    });
+    let config = read_config();
 
-    let api_key = config.api_key;
-    let engine = config.engine;
+    if config.api_key.is_empty() {
+        eprintln!("Error: API key is empty. Please add your API key to config.json");
+        return;
+    }
 
-    // Create a new GPT client
-    let mut chatgpt_client = gpt::GPTClient::new(&api_key, &engine);
-
-    // Create a new runtime
-    let rt = tokio::runtime::Runtime::new().unwrap();
+    let mut chatgpt_client = gpt::GPTClient::new(&config);
+    let t_runtime = tokio::runtime::Runtime::new().unwrap();
 
     loop {
         match ui::get_user_input() {
@@ -53,7 +49,7 @@ fn main() {
                 }
                 
                 // Use the runtime to block on the future
-                match rt.block_on(chatgpt_client.get_response(&input)) {
+                match t_runtime.block_on(chatgpt_client.get_response(&input)) {
                     Ok(response) => ui::display_response(&response),
                     Err(e) => eprintln!("Error: {}", e),
                 }

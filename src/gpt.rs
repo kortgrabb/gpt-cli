@@ -9,16 +9,16 @@ pub struct GPTClient {
 }
 
 impl GPTClient {
-    pub fn new(api_key: &str, engine: &str) -> GPTClient {
+    pub fn new(config: &super::Config) -> GPTClient {
         GPTClient {
             client: Client::new(),
-            api_key: api_key.to_string(),
+            api_key: config.api_key.to_string(),
             message_history: vec![json!({
                 "role": "system",
-                "content": "You are gpt integrated into the console of the user. Because of your limitations, you can only respond to the user's messages in plain text (no HTML/MARKDOWN)."
+                "content": "You are gpt integrated into the console of the user. Because of your limitations, you can only respond to the user's messages in plain text. You will not provide formated responses in Markdown."
             })],
 
-            engine: engine.to_string(),
+            engine: config.engine.to_string(),
         }
     }
 
@@ -45,6 +45,11 @@ impl GPTClient {
 
         // Extract and add AI's response to history
         let ai_response = response["choices"][0]["message"]["content"].as_str().unwrap_or("").to_string();
+        
+       if ai_response.is_empty() {
+            eprintln!("Error: Invalid model name in config.json");
+       }
+
         self.message_history.push(json!({
             "role": "assistant",
             "content": &ai_response

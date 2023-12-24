@@ -2,7 +2,7 @@ use colored::*;
 use std::io::{self, Write};
 
 pub fn get_user_input() -> Option<String> {
-    print!("{}", ">> Your Input: ".green().bold());
+    print!("{}", ">> You: ".green().bold());
     io::stdout().flush().unwrap();
 
     let mut input = String::new();
@@ -13,5 +13,5 @@ pub fn get_user_input() -> Option<String> {
 }
 
 pub fn display_response(response: &str) {
-    println!("\n{} {}", "AI:".blue().bold(), response);
+    println!("\n{} {}", "AI Response:".blue().bold(), response);
 }
