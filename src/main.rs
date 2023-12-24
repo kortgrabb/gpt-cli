@@ -7,6 +7,9 @@ mod ui;
 struct Config {
     api_key: String,
     engine: String,
+    max_tokens: usize,
+    temperature: f32,
+    top_p: f32,
 }
 
 fn read_config() -> Config {
@@ -16,13 +19,15 @@ fn read_config() -> Config {
         let config = Config {
             api_key: "".to_string(),
             engine: "gpt-3.5-turbo".to_string(),
+            max_tokens: 150,
+            temperature: 0.9,
+            top_p: 1.0,
         };
 
         let config_json = serde_json::to_string_pretty(&config).unwrap();
         std::fs::write("config.json", config_json).unwrap();
     }
 
-    // read the config file
     let config_json = std::fs::read_to_string("config.json").unwrap();
     let config: Config = serde_json::from_str(&config_json).unwrap();
 

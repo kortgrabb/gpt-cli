@@ -32,7 +32,10 @@ impl GPTClient {
         // Prepare request body with message history
         let body = json!({
             "model": self.engine,
-            "messages": self.message_history
+            "messages": self.message_history,
+            "max_tokens": 150,
+            "temperature": 0.9,
+            "top_p": 1.0,
         });
 
         let response = self.client.post("https://api.openai.com/v1/chat/completions")
