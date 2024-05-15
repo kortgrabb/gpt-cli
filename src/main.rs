@@ -20,7 +20,7 @@ fn read_config() -> Config {
             api_key: "".to_string(),
             engine: "gpt-4o".to_string(),
             max_tokens: 150,
-            temperature: 0.9,
+            temperature: 0.7,
             top_p: 1.0,
         };
 
@@ -38,7 +38,7 @@ fn main() {
     let config = read_config();
 
     if config.api_key.is_empty() {
-        eprintln!("Error: API key is empty. Please add your API key to config.json");
+        eprintln!("Error: API key is missing. Please add your API key to config.json");
         return;
     }
 
