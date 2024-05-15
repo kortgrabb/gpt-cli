@@ -18,7 +18,7 @@ fn read_config() -> Config {
         // if it doesn't, create it
         let config = Config {
             api_key: "".to_string(),
-            engine: "gpt-3.5-turbo".to_string(),
+            engine: "gpt-4o".to_string(),
             max_tokens: 150,
             temperature: 0.9,
             top_p: 1.0,
@@ -35,7 +35,6 @@ fn read_config() -> Config {
 }
 
 fn main() {    
-    
     let config = read_config();
 
     if config.api_key.is_empty() {
@@ -49,7 +48,7 @@ fn main() {
     loop {
         match ui::get_user_input() {
             Some(input) => {
-                if input.to_lowercase() == "exit" {
+                if input.to_lowercase() == ";exit" {
                     break;
                 }
 
