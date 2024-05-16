@@ -42,6 +42,11 @@ fn main() {
         return;
     }
 
+    println!("+-----------Welcome to ChatGPT CLI-----------+");
+    println!("| Type ';exit' to exit the program           |");
+    println!("| Edit config.json to change settings        |");
+    println!("+--------------------------------------------+");
+
     let mut chatgpt_client = gpt::GPTClient::new(&config);
     let t_runtime = tokio::runtime::Runtime::new().unwrap();
 
@@ -58,7 +63,7 @@ fn main() {
                     Err(err) => eprintln!("Error: {}", err),
                 }
 
-                ui::print_border();
+                //ui::print_border();
             }
             None => break,
         }
